@@ -2,7 +2,6 @@ package com.example.mvvmpostlast.view
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.mvvmpostlast.domain.repository.IPostRepository
 import com.example.mvvmpostlast.domain.usecases.ObservePostsUseCase
 import com.example.mvvmpostlast.domain.usecases.RefreshPostsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,7 +22,7 @@ class PostViewModel @Inject constructor(
 
 
     init {
-        getPosts()
+//        getPosts()
         loadPosts()
     }
     fun getPosts(){
@@ -48,15 +47,16 @@ class PostViewModel @Inject constructor(
     fun loadPosts() {
         viewModelScope.launch {
             _postUiState.value = _postUiState.value.copy(loading = true)
-            runCatching {
+            try {
                 refreshPosts()
-            }.onFailure { e ->
-                _postUiState.value =
-                    _postUiState.value.copy(
-                        loading = false,
-                        error = e.message
-                    )
+            } catch (e: Exception) {
+                _postUiState.value = _postUiState.value.copy(
+                    error = e.message
+                )
+            } finally {
+                _postUiState.value = _postUiState.value.copy(loading = false)
             }
         }
     }
+
 }
