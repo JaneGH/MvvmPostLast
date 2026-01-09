@@ -32,6 +32,13 @@
             </intent-filter>
 
         </activity>
+
+        //important for work manager!!!
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            tools:node="remove" />
+
     </application>
 
 </manifest>

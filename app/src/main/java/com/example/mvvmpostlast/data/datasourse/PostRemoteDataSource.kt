@@ -1,4 +1,4 @@
-package com.example.mvvmpostlast.data.repository
+package com.example.mvvmpostlast.data.datasourse
 
 import com.example.mvvmpostlast.data.remote.ApiService
 import com.example.mylasttrainproject.data.remote.PostDto

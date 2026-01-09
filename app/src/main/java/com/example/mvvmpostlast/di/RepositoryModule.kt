@@ -1,6 +1,8 @@
 package com.example.mvvmpostlast.di
 import com.example.mvvmpostlast.data.repository.PostRepositoryImpl
+import com.example.mvvmpostlast.data.repository.UploadWorkRepositoryImpl
 import com.example.mvvmpostlast.domain.repository.IPostRepository
+import com.example.mvvmpostlast.domain.repository.IUploadWorkRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -16,4 +18,9 @@ abstract class RepositoryModule(){
         impl: PostRepositoryImpl
     ) : IPostRepository
 
+    @Binds
+    @Singleton
+    abstract  fun bindUploadWorkRepository(
+        impl: UploadWorkRepositoryImpl
+    ): IUploadWorkRepository
 }

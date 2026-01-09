@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mvvmpostlast.domain.usecases.ObservePostsUseCase
 import com.example.mvvmpostlast.domain.usecases.RefreshPostsUseCase
+import com.example.mvvmpostlast.domain.usecases.StartUploadWorkUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -15,15 +16,19 @@ import javax.inject.Inject
 @HiltViewModel
 class PostViewModel @Inject constructor(
     private val observePosts: ObservePostsUseCase,
-    private val refreshPosts: RefreshPostsUseCase
+    private val refreshPosts: RefreshPostsUseCase,
+    private val startUploadWorkUseCase: StartUploadWorkUseCase
 ): ViewModel() {
     private val _postUiState =  MutableStateFlow(PostUiState())
     val postUiState : StateFlow<PostUiState> = _postUiState
 
+    fun onAppStarted() {
+        startUploadWorkUseCase()
+    }
 
     init {
 //        getPosts()
-        loadPosts()
+//        loadPosts()
     }
     fun getPosts(){
 
@@ -44,19 +49,19 @@ class PostViewModel @Inject constructor(
         }
     }
 
-    fun loadPosts() {
-        viewModelScope.launch {
-            _postUiState.value = _postUiState.value.copy(loading = true)
-            try {
-                refreshPosts()
-            } catch (e: Exception) {
-                _postUiState.value = _postUiState.value.copy(
-                    error = e.message
-                )
-            } finally {
-                _postUiState.value = _postUiState.value.copy(loading = false)
-            }
-        }
-    }
+//    fun loadPosts() {
+//        viewModelScope.launch {
+//            _postUiState.value = _postUiState.value.copy(loading = true)
+//            try {
+//                refreshPosts()
+//            } catch (e: Exception) {
+//                _postUiState.value = _postUiState.value.copy(
+//                    error = e.message
+//                )
+//            } finally {
+//                _postUiState.value = _postUiState.value.copy(loading = false)
+//            }
+//        }
+//    }
 
 }
