@@ -3,7 +3,7 @@ package com.example.mvvmpostlast.view
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mvvmpostlast.domain.usecases.ObservePostsUseCase
-import com.example.mvvmpostlast.domain.usecases.RefreshPostsUseCase
+import com.example.mvvmpostlast.domain.usecases.ObserveUploadProgressUseCase
 import com.example.mvvmpostlast.domain.usecases.StartUploadWorkUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,20 +16,26 @@ import javax.inject.Inject
 @HiltViewModel
 class PostViewModel @Inject constructor(
     private val observePosts: ObservePostsUseCase,
-    private val refreshPosts: RefreshPostsUseCase,
+    private val observeUploadProgress: ObserveUploadProgressUseCase,
     private val startUploadWorkUseCase: StartUploadWorkUseCase
 ): ViewModel() {
     private val _postUiState =  MutableStateFlow(PostUiState())
     val postUiState : StateFlow<PostUiState> = _postUiState
 
+    init {
+        viewModelScope.launch {
+            observeUploadProgress()
+                .collect { progress ->
+                    _postUiState.value =
+                        _postUiState.value.copy(progress = progress)
+                }
+        }
+    }
+
     fun onAppStarted() {
         startUploadWorkUseCase()
     }
 
-    init {
-//        getPosts()
-//        loadPosts()
-    }
     fun getPosts(){
 
         viewModelScope.launch {
