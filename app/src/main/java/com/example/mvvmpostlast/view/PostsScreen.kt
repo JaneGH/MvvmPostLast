@@ -1,5 +1,7 @@
 package com.example.mvvmpostlast.view
+import com.example.mvvmpostlast.R
 
+import android.view.LayoutInflater
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,12 +18,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.mvvmpostlast.databinding.ViewHeaderBinding
+
+//import com.example.mvvmpostlast.databinding.ViewHeaderBinding
 
 @Composable
-fun PostsScreen(onPostClick : (String) -> Unit) {
-    val vm: PostViewModel = hiltViewModel()
+fun PostsScreen( onPostClick: (String) -> Unit,
+                 vm: PostViewModelContract = hiltViewModel<PostViewModel>()) {
 
     val uiState by vm.postUiState.collectAsStateWithLifecycle()
     Column(
@@ -32,29 +39,65 @@ fun PostsScreen(onPostClick : (String) -> Unit) {
             LinearProgressIndicator(
                 progress = { uiState.progress / 100f },
                 modifier = Modifier.fillMaxWidth()
+                    .testTag("progress")
             )
         }
 
 
-        Box(
-            modifier = Modifier.fillMaxWidth(),
-            contentAlignment = Alignment.Center
 
-        ) {
-            Button(
-                onClick = { vm.getPosts() },
+
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+
+            ) {
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.Center
 
                 ) {
-                Text("Get posts")
+                    Button(
+                        modifier = Modifier
+                            .testTag("btnGetPost"),
+                        onClick = { vm.getPosts() },
+
+                        ) {
+                        Text("Get posts")
+                    }
+
+                }
+
+                AndroidView(
+                    factory = { context ->
+                        ViewHeaderBinding.inflate(
+                            LayoutInflater.from(context),
+                            null,
+                            false
+                        ).root
+                    },
+                    update = { view ->
+//                         val binding = ViewHeaderBinding.bind(view)
+//                         binding.headerText.text = "Posts1"
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .testTag("xmlHeader")
+                )
+
+
             }
-        }
         when {
             uiState.error != null -> {
-                Text("Error ${uiState.error}")
+                Text(
+                    modifier = Modifier
+                        .testTag("textError"),
+                    text = "Error ${uiState.error}")
             }
 
             uiState.data != null -> {
-                LazyColumn() {
+                LazyColumn(
+                    modifier = Modifier
+                        .testTag("postList")
+                ) {
                     items(uiState.data!!) { post ->
                         Column(
                             Modifier.clickable(onClick = {

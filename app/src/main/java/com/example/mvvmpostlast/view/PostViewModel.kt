@@ -14,13 +14,13 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class PostViewModel @Inject constructor(
+open class PostViewModel @Inject constructor(
     private val observePosts: ObservePostsUseCase,
     private val observeUploadProgress: ObserveUploadProgressUseCase,
     private val startUploadWorkUseCase: StartUploadWorkUseCase
-): ViewModel() {
+):  ViewModel(), PostViewModelContract {
     private val _postUiState =  MutableStateFlow(PostUiState())
-    val postUiState : StateFlow<PostUiState> = _postUiState
+    override val postUiState : StateFlow<PostUiState> = _postUiState
 
     init {
         viewModelScope.launch {
@@ -36,7 +36,7 @@ class PostViewModel @Inject constructor(
         startUploadWorkUseCase()
     }
 
-    fun getPosts(){
+    override fun getPosts(){
 
         viewModelScope.launch {
             _postUiState.value = _postUiState.value.copy(loading = true)
