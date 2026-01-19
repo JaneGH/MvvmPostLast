@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.MvvmPostLast" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.MvvmPostLast" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorOnPrimary">@color/on_primary</item>
+    </style>
 </resources>
