@@ -1,4 +1,4 @@
-package com.example.mvvmpostlast.view
+package com.example.mvvmpostlast.presentation.posts
 
 import com.example.mvvmpostlast.domain.model.Post
 

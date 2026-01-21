@@ -7,8 +7,8 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navDeepLink
-import com.example.mvvmpostlast.view.DetailScreen
-import com.example.mvvmpostlast.view.PostsScreen
+import com.example.mvvmpostlast.presentation.detail.DetailScreen
+import com.example.mvvmpostlast.presentation.posts.PostsScreen
 
 
 @Composable
@@ -42,7 +42,12 @@ fun AppNavGraph(navController: NavHostController) {
         ) {
             entry->
             DetailScreen(
-                postId = entry.arguments?.getString("postId")!!
+                onAction = { action ->
+                    // handle CMS actions from detail screen here
+                    // example:
+                    // if (action == "open_next") { navController.navigate(...) }
+                }
+                //postId = entry.arguments?.getString("postId")!!
             )
         }
     }

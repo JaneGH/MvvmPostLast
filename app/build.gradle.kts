@@ -140,4 +140,5 @@ dependencies {
     testImplementation("androidx.arch.core:core-testing:2.2.0")
 
     testImplementation("app.cash.turbine:turbine:1.0.0")
+    implementation("io.coil-kt:coil-compose:2.7.0")
 }

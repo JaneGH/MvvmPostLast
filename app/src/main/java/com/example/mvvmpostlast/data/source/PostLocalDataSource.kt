@@ -1,4 +1,4 @@
-package com.example.mvvmpostlast.data.datasourse
+package com.example.mvvmpostlast.data.source
 
 import com.example.mvvmpostlast.data.local.dao.PostDao
 import com.example.mvvmpostlast.data.local.entity.PostEntity

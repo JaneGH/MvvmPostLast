@@ -1,8 +1,6 @@
-package com.example.mvvmpostlast.view
-import com.example.mvvmpostlast.R
+package com.example.mvvmpostlast.presentation.posts
 
 import android.view.LayoutInflater
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column

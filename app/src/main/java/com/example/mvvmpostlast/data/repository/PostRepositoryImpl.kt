@@ -1,7 +1,7 @@
 package com.example.mvvmpostlast.data.repository
 
-import com.example.mvvmpostlast.data.datasourse.PostLocalDataSource
-import com.example.mvvmpostlast.data.datasourse.PostRemoteDataSource
+import com.example.mvvmpostlast.data.source.PostLocalDataSource
+import com.example.mvvmpostlast.data.source.PostRemoteDataSource
 import com.example.mvvmpostlast.data.mapper.toDomain
 import com.example.mvvmpostlast.data.mapper.toEntity
 import com.example.mvvmpostlast.domain.model.Post

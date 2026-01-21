@@ -1,5 +1,6 @@
 package com.example.mvvmpostlast.di
 import com.example.mvvmpostlast.data.remote.ApiService
+import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,6 +25,12 @@ object NetworkModule{
     @Singleton
     fun provideApiService(retrofit: Retrofit): ApiService{
         return retrofit.create(ApiService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGson(): Gson {
+        return Gson()
     }
 
 

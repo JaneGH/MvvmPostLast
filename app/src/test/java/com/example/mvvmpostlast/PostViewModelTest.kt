@@ -6,11 +6,10 @@ import com.example.mvvmpostlast.domain.model.Post
 import com.example.mvvmpostlast.domain.usecases.ObservePostsUseCase
 import com.example.mvvmpostlast.domain.usecases.ObserveUploadProgressUseCase
 import com.example.mvvmpostlast.domain.usecases.StartUploadWorkUseCase
-import com.example.mvvmpostlast.view.PostViewModel
+import com.example.mvvmpostlast.presentation.posts.PostViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse

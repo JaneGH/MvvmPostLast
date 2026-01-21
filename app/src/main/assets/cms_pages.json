@@ -1,0 +1,17 @@
+{
+  "blocks": [
+    {
+      "type": "header",
+      "text": "Welcome to news details"
+    },
+    {
+      "type": "image",
+      "url": "https://www.energy.gov/sites/default/files/2018/08/f54/news24_0.jpg"
+    },
+    {
+      "type": "button",
+      "text": "Get Started",
+      "action": "open_signup"
+    }
+  ]
+}

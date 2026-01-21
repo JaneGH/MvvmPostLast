@@ -1,7 +1,6 @@
 package com.example.mvvmpostlast
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -14,7 +13,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import com.example.mvvmpostlast.navigation.AppNavGraph
 import com.example.mvvmpostlast.ui.theme.MvvmPostLastTheme
-import com.example.mvvmpostlast.view.PostViewModel
+import com.example.mvvmpostlast.presentation.posts.PostViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

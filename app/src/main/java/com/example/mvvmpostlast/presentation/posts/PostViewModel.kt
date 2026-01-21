@@ -1,4 +1,4 @@
-package com.example.mvvmpostlast.view
+package com.example.mvvmpostlast.presentation.posts
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

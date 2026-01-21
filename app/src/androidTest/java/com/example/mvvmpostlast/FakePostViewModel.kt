@@ -1,8 +1,8 @@
 package com.example.mvvmpostlast
 
 import com.example.mvvmpostlast.domain.model.Post
-import com.example.mvvmpostlast.view.PostUiState
-import com.example.mvvmpostlast.view.PostViewModelContract
+import com.example.mvvmpostlast.presentation.posts.PostUiState
+import com.example.mvvmpostlast.presentation.posts.PostViewModelContract
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
