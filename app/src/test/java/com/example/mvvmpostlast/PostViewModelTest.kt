@@ -7,6 +7,7 @@ import com.example.mvvmpostlast.domain.usecases.ObservePostsUseCase
 import com.example.mvvmpostlast.domain.usecases.ObserveUploadProgressUseCase
 import com.example.mvvmpostlast.domain.usecases.StartUploadWorkUseCase
 import com.example.mvvmpostlast.presentation.posts.PostViewModel
+import io.mockk.every
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
@@ -18,10 +19,8 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.mockito.Mock
-import org.mockito.MockitoAnnotations
-import org.mockito.kotlin.verify
-import org.mockito.kotlin.whenever
+import io.mockk.verify
+
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class PostViewModelTest {
@@ -32,24 +31,19 @@ class PostViewModelTest {
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
-    @Mock
     lateinit var observePosts: ObservePostsUseCase
-
-    @Mock
     lateinit var observeUploadProgress: ObserveUploadProgressUseCase
-
-    @Mock
     lateinit var startUploadWorkUseCase: StartUploadWorkUseCase
 
     private lateinit var viewModel: PostViewModel
 
     @Before
     fun setUp() {
-        MockitoAnnotations.openMocks(this)
+        observePosts = io.mockk.mockk()
+        observeUploadProgress = io.mockk.mockk()
+        startUploadWorkUseCase = io.mockk.mockk(relaxed = true)
 
-        // Default flow for init{} block
-        whenever(observeUploadProgress())
-            .thenReturn(flowOf(0))
+        every { observeUploadProgress() } returns flowOf(0)
 
         viewModel = PostViewModel(
             observePosts = observePosts,
@@ -62,14 +56,13 @@ class PostViewModelTest {
     @Test
     fun onAppStarted_startsUploadWork() {
         viewModel.onAppStarted()
-        verify(startUploadWorkUseCase).invoke()
+        verify{ startUploadWorkUseCase.invoke() }
     }
 
 
     @Test
     fun uploadProgress_updatesUiState() = runTest {
-        whenever(observeUploadProgress())
-            .thenReturn(flowOf(10, 50, 100))
+        every { observeUploadProgress() } returns flowOf(10, 50, 100)
 
         viewModel = PostViewModel(
             observePosts,
@@ -98,8 +91,7 @@ class PostViewModelTest {
             Post(id = 2, title = "Title 2", body = "Body 2", userId = 3),
         )
 
-        whenever(observePosts())
-            .thenReturn(flowOf(fakePosts))
+        every { observePosts() } returns flowOf(fakePosts)
 
 
 //        viewModel.getPosts()
@@ -135,12 +127,10 @@ class PostViewModelTest {
 
     @Test
     fun getPosts_error_updatesErrorState() = runTest {
-        whenever(observePosts())
-            .thenReturn(
-                flow {
-                    throw RuntimeException("Network error")
-                }
-            )
+        every { observePosts() } returns flow {
+            throw RuntimeException("Network error")
+        }
+
 
 //        viewModel.getPosts()
 //        advanceUntilIdle()
