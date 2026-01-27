@@ -33,7 +33,7 @@ fun AppNavGraph(navController: NavHostController) {
             ),
             deepLinks = listOf(
                 navDeepLink {
-                    uriPattern = "myapp://post/{postId}"
+                    uriPattern = "https://mvvmpostlast.example.com/post_details/{postId}"
                 }
             )
 
