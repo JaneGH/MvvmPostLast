@@ -27,6 +27,7 @@ fun DetailScreen(
     val uiState by viewModel.uiState.collectAsState()
 
     LaunchedEffect(Unit) {
+        viewModel.onScreenOpened()
         viewModel.load()
     }
 

@@ -2,6 +2,7 @@ package com.example.mvvmpostlast.presentation.posts
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.mvvmpostlast.analytics.AnalyticsManager
 import com.example.mvvmpostlast.domain.usecases.ObservePostsUseCase
 import com.example.mvvmpostlast.domain.usecases.ObserveUploadProgressUseCase
 import com.example.mvvmpostlast.domain.usecases.StartUploadWorkUseCase
@@ -17,7 +18,8 @@ import javax.inject.Inject
 open class PostViewModel @Inject constructor(
     private val observePosts: ObservePostsUseCase,
     private val observeUploadProgress: ObserveUploadProgressUseCase,
-    private val startUploadWorkUseCase: StartUploadWorkUseCase
+    private val startUploadWorkUseCase: StartUploadWorkUseCase,
+    private val analyticsManager: AnalyticsManager
 ):  ViewModel(), PostViewModelContract {
     private val _postUiState =  MutableStateFlow(PostUiState())
     override val postUiState : StateFlow<PostUiState> = _postUiState
@@ -30,6 +32,10 @@ open class PostViewModel @Inject constructor(
                         _postUiState.value.copy(progress = progress)
                 }
         }
+    }
+
+    override fun onScreenOpened() {
+        analyticsManager.logScreen("PostsScreen")
     }
 
     fun onAppStarted() {

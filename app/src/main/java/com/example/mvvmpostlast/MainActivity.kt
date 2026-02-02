@@ -11,16 +11,26 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
+import com.example.mvvmpostlast.analytics.AnalyticsManager
 import com.example.mvvmpostlast.navigation.AppNavGraph
 import com.example.mvvmpostlast.ui.theme.MvvmPostLastTheme
 import com.example.mvvmpostlast.presentation.posts.PostViewModel
+import com.google.firebase.Firebase
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.analytics
+import com.google.firebase.analytics.logEvent
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    private lateinit var analytics: FirebaseAnalytics
+    @Inject
+    lateinit var analyticsManager: AnalyticsManager
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        analytics = Firebase.analytics
         enableEdgeToEdge()
         setContent {
             MvvmPostLastTheme {

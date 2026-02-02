@@ -8,6 +8,7 @@ import com.example.mvvmpostlast.domain.usecases.ObserveUploadProgressUseCase
 import com.example.mvvmpostlast.domain.usecases.StartUploadWorkUseCase
 import com.example.mvvmpostlast.presentation.posts.PostViewModel
 import io.mockk.every
+import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
@@ -39,16 +40,17 @@ class PostViewModelTest {
 
     @Before
     fun setUp() {
-        observePosts = io.mockk.mockk()
-        observeUploadProgress = io.mockk.mockk()
-        startUploadWorkUseCase = io.mockk.mockk(relaxed = true)
+        observePosts = mockk()
+        observeUploadProgress = mockk()
+        startUploadWorkUseCase = mockk(relaxed = true)
 
         every { observeUploadProgress() } returns flowOf(0)
 
         viewModel = PostViewModel(
             observePosts = observePosts,
             observeUploadProgress = observeUploadProgress,
-            startUploadWorkUseCase = startUploadWorkUseCase
+            startUploadWorkUseCase = startUploadWorkUseCase,
+            analyticsManager = mockk(relaxed = true)
         )
     }
 
@@ -67,7 +69,8 @@ class PostViewModelTest {
         viewModel = PostViewModel(
             observePosts,
             observeUploadProgress,
-            startUploadWorkUseCase
+            startUploadWorkUseCase,
+            analyticsManager = mockk(relaxed = true)
         )
 
 //        advanceUntilIdle()

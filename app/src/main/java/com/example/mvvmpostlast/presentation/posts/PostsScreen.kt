@@ -15,6 +15,7 @@ import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,13 +25,17 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.mvvmpostlast.databinding.ViewHeaderBinding
 
-//import com.example.mvvmpostlast.databinding.ViewHeaderBinding
 
 @Composable
 fun PostsScreen( onPostClick: (String) -> Unit,
                  vm: PostViewModelContract = hiltViewModel<PostViewModel>()) {
 
     val uiState by vm.postUiState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(Unit) {
+        vm.onScreenOpened()
+    }
+
     Column(
         Modifier.systemBarsPadding(),
     ) {
