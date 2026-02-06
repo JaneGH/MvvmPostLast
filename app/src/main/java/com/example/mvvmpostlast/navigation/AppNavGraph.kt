@@ -46,6 +46,9 @@ fun AppNavGraph(navController: NavHostController) {
                     // handle CMS actions from detail screen here
                     // example:
                     // if (action == "open_next") { navController.navigate(...) }
+                },
+                onListClick = {
+                    navController.navigate(Screen.PostsList.route)
                 }
                 //postId = entry.arguments?.getString("postId")!!
             )

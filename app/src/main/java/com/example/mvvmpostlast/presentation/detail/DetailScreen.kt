@@ -1,7 +1,11 @@
 package com.example.mvvmpostlast.presentation.detail
 
+import android.annotation.SuppressLint
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
@@ -17,11 +21,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.mvvmpostlast.WebAppBridge
+import com.example.mvvmpostlast.navigation.Screen
 
+@SuppressLint("SetJavaScriptEnabled")
 @Composable
 fun DetailScreen(
     onAction: (String) -> Unit,
+    onListClick:()->Unit,
     viewModel: CmsViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -30,6 +39,7 @@ fun DetailScreen(
         viewModel.onScreenOpened()
         viewModel.load()
     }
+
 
     when (val state = uiState) {
         is DetailPostUiState.Loading -> {
@@ -48,17 +58,40 @@ fun DetailScreen(
         }
 
         is DetailPostUiState.Success -> {
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .systemBarsPadding()
-                    .padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                items(state.page.blocks) { block ->
-                    CmsBlockRenderer(
-                        block = block, onAction = onAction)
+            Column() {
+                LazyColumn(
+                    modifier = Modifier
+                        .weight(1f)
+                        .systemBarsPadding()
+                        .padding(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    items(state.page.blocks) { block ->
+                        CmsBlockRenderer(
+                            block = block, onAction = onAction
+                        )
+                    }
                 }
+
+                AndroidView(
+                    modifier = Modifier.weight(1f),
+                    factory = { context ->
+                        WebView(context).apply {
+                            settings.javaScriptEnabled = true
+                            settings.domStorageEnabled = true
+                            webViewClient = WebViewClient()
+                            addJavascriptInterface(
+                                WebAppBridge {
+                                    onListClick()
+                                },
+                                "AndroidBridge"
+                            )
+
+                            loadUrl("file:///android_asset/post_detail.html")
+
+                        }
+                    }
+                )
             }
         }
     }
