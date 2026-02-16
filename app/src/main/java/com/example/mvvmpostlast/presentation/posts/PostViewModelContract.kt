@@ -4,6 +4,9 @@ import kotlinx.coroutines.flow.StateFlow
 
 interface PostViewModelContract {
     val postUiState: StateFlow<PostUiState>
+
+    val airplaneMode: StateFlow<Boolean>
+
     fun getPosts()
     fun onScreenOpened()
 }

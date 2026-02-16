@@ -1,5 +1,7 @@
 package com.example.mvvmpostlast.presentation.posts
 
+import android.content.Intent
+import android.content.IntentFilter
 import android.view.LayoutInflater
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -15,14 +17,19 @@ import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.mvvmpostlast.broadcast.AirplaneModeReceiver
 import com.example.mvvmpostlast.databinding.ViewHeaderBinding
 
 
@@ -31,10 +38,20 @@ fun PostsScreen( onPostClick: (String) -> Unit,
                  vm: PostViewModelContract = hiltViewModel<PostViewModel>()) {
 
     val uiState by vm.postUiState.collectAsStateWithLifecycle()
+    val airplaneMode by vm.airplaneMode.collectAsStateWithLifecycle()
+
+
 
     LaunchedEffect(Unit) {
         vm.onScreenOpened()
     }
+
+    LaunchedEffect(airplaneMode) {
+        if (!airplaneMode) {
+            vm.getPosts()
+        }
+    }
+
 
     Column(
         Modifier.systemBarsPadding(),
