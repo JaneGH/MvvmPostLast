@@ -6,6 +6,5 @@ interface IAirplaneRepository {
 
     val airplaneMode: Flow<Boolean>
 
-    fun update(state: Boolean)
 
 }
