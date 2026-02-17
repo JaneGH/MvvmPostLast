@@ -5,6 +5,7 @@ plugins {
     id("com.google.devtools.ksp") version "2.0.21-1.0.25"
     id("com.google.dagger.hilt.android") version "2.57.1"
     alias(libs.plugins.google.gms.google.services)
+    alias(libs.plugins.google.firebase.crashlytics)
 }
 
 android {
@@ -81,6 +82,7 @@ dependencies {
     implementation(libs.firebase.analytics)
     implementation(libs.androidx.ui)
     implementation(libs.firebase.config)
+    implementation(libs.firebase.crashlytics)
     debugImplementation(libs.androidx.compose.ui.tooling)
 
     // ---------- Unit Tests (JVM) ----------
