@@ -31,6 +31,7 @@ open class PostViewModel @Inject constructor(
     override val airplaneMode = observeAirplaneModeUseCase().stateIn(
         viewModelScope,
         SharingStarted.WhileSubscribed(5000),
+//        SharingStarted.Eagerly,
         false
     )
 

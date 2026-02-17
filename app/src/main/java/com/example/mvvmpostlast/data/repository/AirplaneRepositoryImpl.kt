@@ -4,13 +4,11 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.os.Build
 import com.example.mvvmpostlast.domain.repository.IAirplaneRepository
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.flow.distinctUntilChanged
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -34,20 +32,13 @@ class AirplaneRepositoryImpl @Inject constructor(
             }
         }
 
-        val filter = IntentFilter(Intent.ACTION_AIRPLANE_MODE_CHANGED)
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            context.registerReceiver(
-                receiver,
-                filter,
-                Context.RECEIVER_NOT_EXPORTED
-            )
-        } else {
-            context.registerReceiver(receiver, filter)
-        }
+        context.registerReceiver(
+            receiver,
+            IntentFilter(Intent.ACTION_AIRPLANE_MODE_CHANGED)
+        )
 
         awaitClose {
             context.unregisterReceiver(receiver)
         }
-    }.distinctUntilChanged()
+    }
 }

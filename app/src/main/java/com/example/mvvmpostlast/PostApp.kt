@@ -9,11 +9,17 @@ import android.util.Log
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
 import com.example.mvvmpostlast.domain.repository.IAirplaneRepository
+import com.google.firebase.Firebase
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import com.google.firebase.remoteconfig.remoteConfig
+import com.google.firebase.remoteconfig.remoteConfigSettings
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 
 @HiltAndroidApp
 class PostApp : Application(), Configuration.Provider {
+
+    lateinit var remoteConfig: FirebaseRemoteConfig
 
     @Inject
     lateinit var workerFactory: HiltWorkerFactory
@@ -46,11 +52,16 @@ class PostApp : Application(), Configuration.Provider {
     override fun onCreate() {
         super.onCreate()
 
-        val filter = IntentFilter(Intent.ACTION_AIRPLANE_MODE_CHANGED)
+//        val filter = IntentFilter(Intent.ACTION_AIRPLANE_MODE_CHANGED)
 
 //        registerReceiver(receiver, filter)
 
-        Log.d("AIRPLANE_DEBUG", "Receiver registered in Application")
+
+        remoteConfig = Firebase.remoteConfig
+        val configSettings = remoteConfigSettings {
+            minimumFetchIntervalInSeconds = 0
+        }
+        remoteConfig.setConfigSettingsAsync(configSettings)
     }
 
 }

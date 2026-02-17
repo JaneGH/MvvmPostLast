@@ -2,10 +2,12 @@ package com.example.mvvmpostlast.di
 import com.example.mvvmpostlast.data.repository.AirplaneRepositoryImpl
 import com.example.mvvmpostlast.data.repository.CmsRepositoryImpl
 import com.example.mvvmpostlast.data.repository.PostRepositoryImpl
+import com.example.mvvmpostlast.data.repository.ThemeRepositoryImpl
 import com.example.mvvmpostlast.data.repository.UploadWorkRepositoryImpl
 import com.example.mvvmpostlast.domain.repository.IAirplaneRepository
 import com.example.mvvmpostlast.domain.repository.ICmsRepository
 import com.example.mvvmpostlast.domain.repository.IPostRepository
+import com.example.mvvmpostlast.domain.repository.IThemeRepository
 import com.example.mvvmpostlast.domain.repository.IUploadWorkRepository
 import dagger.Binds
 import dagger.Module
@@ -39,4 +41,10 @@ abstract class RepositoryModule(){
     abstract fun bindAirplaneRepository(
         impl: AirplaneRepositoryImpl
     ): IAirplaneRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindThemeRepository(
+        impl: ThemeRepositoryImpl
+    ): IThemeRepository
 }

@@ -1,6 +1,7 @@
 package com.example.mvvmpostlast.presentation.detail
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.compose.foundation.layout.Arrangement
@@ -18,13 +19,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.mvvmpostlast.PostApp
 import com.example.mvvmpostlast.WebAppBridge
-import com.example.mvvmpostlast.navigation.Screen
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import kotlinx.coroutines.tasks.await
 
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
@@ -34,10 +42,26 @@ fun DetailScreen(
     viewModel: CmsViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val context = LocalContext.current
+
+    var showNewUI by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         viewModel.onScreenOpened()
         viewModel.load()
+    }
+
+    LaunchedEffect(Unit) {
+        val remoteConfig =
+            (context.applicationContext as PostApp).remoteConfig
+
+        try {
+            remoteConfig.fetchAndActivate().await()
+            showNewUI = remoteConfig.getBoolean("home_new_ui")
+        } catch (e: Exception) {
+            showNewUI = false
+            Log.d("!!!","${e.message}")
+        }
     }
 
 
@@ -58,7 +82,22 @@ fun DetailScreen(
         }
 
         is DetailPostUiState.Success -> {
-            Column() {
+            Column(
+                modifier = Modifier.systemBarsPadding()
+            ) {
+                if (showNewUI) {
+                    Text(
+                        color = Color.Blue,
+                        modifier = Modifier.padding(start = 16.dp),
+                        text = "New ui features turn on"
+                    )
+                }else{
+                    Text(
+                        color = Color.Red,
+                        modifier = Modifier.padding(start = 16.dp),
+                        text = "New ui features turn off")
+                }
+
                 LazyColumn(
                     modifier = Modifier
                         .weight(1f)
@@ -92,6 +131,8 @@ fun DetailScreen(
                         }
                     }
                 )
+
+
             }
         }
     }

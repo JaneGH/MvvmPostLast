@@ -80,6 +80,7 @@ dependencies {
     implementation(libs.androidx.compose.material3)
     implementation(libs.firebase.analytics)
     implementation(libs.androidx.ui)
+    implementation(libs.firebase.config)
     debugImplementation(libs.androidx.compose.ui.tooling)
 
     // ---------- Unit Tests (JVM) ----------
@@ -143,4 +144,7 @@ dependencies {
 
     testImplementation("app.cash.turbine:turbine:1.0.0")
     implementation("io.coil-kt:coil-compose:2.7.0")
+
+    //data store
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
 }
