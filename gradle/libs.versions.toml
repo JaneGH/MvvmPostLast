@@ -18,6 +18,9 @@ ui = "1.10.2"
 firebaseConfig = "23.0.1"
 firebaseCrashlytics = "20.0.4"
 googleFirebaseCrashlytics = "3.0.6"
+kotlinStdlib = "2.0.21"
+kotlinTest = "2.0.21"
+core = "1.7.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -42,6 +45,9 @@ firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics
 androidx-ui = { group = "androidx.compose.ui", name = "ui", version.ref = "ui" }
 firebase-config = { group = "com.google.firebase", name = "firebase-config", version.ref = "firebaseConfig" }
 firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics", version.ref = "firebaseCrashlytics" }
+kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", version.ref = "kotlinStdlib" }
+kotlin-test = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "kotlinTest" }
+androidx-core = { group = "androidx.test", name = "core", version.ref = "core" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -49,4 +55,7 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 google-gms-google-services = { id = "com.google.gms.google-services", version.ref = "googleGmsGoogleServices" }
 google-firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "googleFirebaseCrashlytics" }
+kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+android-kotlin-multiplatform-library = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
+android-lint = { id = "com.android.lint", version.ref = "agp" }
 

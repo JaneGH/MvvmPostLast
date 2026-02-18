@@ -1,12 +1,14 @@
 package com.example.mvvmpostlast.presentation.posts
 
-import android.content.Intent
-import android.content.IntentFilter
+
 import android.view.LayoutInflater
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -15,6 +17,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -22,19 +25,23 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.mvvmpostlast.databinding.ViewHeaderBinding
+import com.example.mvvmpostlast.presentation.SettingsViewModel
 
 
 @Composable
 fun PostsScreen( onPostClick: (String) -> Unit,
-                 vm: PostViewModelContract = hiltViewModel<PostViewModel>()) {
+                 vm: PostViewModelContract = hiltViewModel<PostViewModel>(),
+                 settingsViewModel: SettingsViewModel = hiltViewModel()
+) {
 
     val uiState by vm.postUiState.collectAsStateWithLifecycle()
     val airplaneMode by vm.airplaneMode.collectAsStateWithLifecycle()
-
+    val darkMode by settingsViewModel.darkMode.collectAsStateWithLifecycle()
 
 
     LaunchedEffect(Unit) {
@@ -61,7 +68,27 @@ fun PostsScreen( onPostClick: (String) -> Unit,
         }
 
 
+        Row(
+            modifier = Modifier.padding(16.dp)
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.End
+        ) {
 
+            Text(
+                modifier = Modifier.padding(end = 16.dp),
+                text = "Dark Mode",
+                style = MaterialTheme.typography.bodyLarge
+            )
+
+            Switch(
+                checked = darkMode,
+                onCheckedChange = { enabled ->
+                    settingsViewModel.setDarkMode(enabled)
+                },
+                modifier = Modifier.testTag("switchDarkMode")
+            )
+        }
 
             Column(
                 modifier = Modifier.fillMaxWidth(),

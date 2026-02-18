@@ -25,6 +25,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.UiComposable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -120,6 +121,7 @@ fun DetailScreen(
                     }
                 }
 
+                // added web view inside jetpack compose
                 AndroidView(
                     modifier = Modifier.weight(1f),
                     factory = { context ->

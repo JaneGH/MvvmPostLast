@@ -13,7 +13,7 @@ import javax.inject.Inject
 class SettingsViewModel @Inject constructor(
     private val dataStoreManager: DataStoreManager
 ) : ViewModel() {
-    val  darkMode = dataStoreManager.getDarkMode().stateIn(viewModelScope, SharingStarted.WhileSubscribed(), false)
+    val  darkMode = dataStoreManager.getDarkMode().stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
     fun setDarkMode(enabled: Boolean) {
         viewModelScope.launch {
             dataStoreManager.setDarkMode(enabled)
